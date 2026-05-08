@@ -2,7 +2,7 @@
 
 `skim.page` is a lightweight URL-prepend app for turning long articles into AI-ready TL;DR prompts.
 
-The Phase 1 product is client-only: a user prepends `skim.page/` to an article URL, optionally adds a provider and lens, then the app generates a prompt, opens the selected AI provider as a best-effort handoff, and always shows a copyable fallback prompt.
+The Phase 1 product is client-only: a user prepends `skim.page/` to an article URL, optionally adds a provider and lens, then the app generates a prompt, attempts to open the selected provider automatically, and shows a copyable fallback prompt.
 
 ## Current Scope
 
@@ -163,7 +163,7 @@ Perplexity: https://www.perplexity.ai/?q={encodedPrompt}
 Grok:       https://grok.com/?q={encodedPrompt}
 ```
 
-Handoff behavior is best-effort. The fallback page must always remain available because third-party URL prefill behavior can change or be blocked by popup/browser policy.
+Handoff behavior is best-effort. The fallback page must always remain available because third-party URL prefill behavior can change or the browser may block automatic pop-ups. The fallback page explains that users can allow pop-ups and redirects for skim.page once so future handoffs open automatically.
 
 Gemini note: Gemini currently opens through Google AI Mode search using `udm=50`. This is useful but not a guaranteed public API. Future extension work may inject prompts directly into Gemini instead.
 

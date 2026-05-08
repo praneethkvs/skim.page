@@ -267,7 +267,7 @@ function LandingPage({
               <div className="step-num accent-color">3</div>
               <div className="step-title">Get your TL;DR</div>
               <div className="step-body">
-                Your AI app opens with the lens prompt ready. Copy fallback stays on skim.page.
+                Your AI app opens automatically. Copy fallback stays on skim.page.
               </div>
             </div>
           </div>
@@ -315,6 +315,7 @@ type PromptFallbackProps = {
 
 function PromptFallback({ request }: PromptFallbackProps) {
   const [copyLabel, setCopyLabel] = useState('Copy prompt');
+  const [popupBlocked, setPopupBlocked] = useState(false);
   const promptRef = useRef<HTMLDivElement>(null);
   const didAutoOpen = useRef(false);
   const lens = lenses[request.lensId];
@@ -336,7 +337,15 @@ function PromptFallback({ request }: PromptFallbackProps) {
 
     didAutoOpen.current = true;
     openedHandoffUrls.add(request.handoffUrl);
-    window.open(request.handoffUrl, '_blank', 'noopener,noreferrer');
+
+    const popup = window.open(request.handoffUrl, '_blank');
+
+    if (popup) {
+      popup.opener = null;
+      return;
+    }
+
+    setPopupBlocked(true);
   }, [request.handoffMode, request.handoffUrl]);
 
   async function copyPrompt() {
@@ -375,6 +384,14 @@ function PromptFallback({ request }: PromptFallbackProps) {
           <strong>{provider.label}</strong>
         </div>
         <p className="provider-note">{provider.note}</p>
+        <div className="popup-alert" role="status">
+          <strong>{popupBlocked ? 'Pop-up blocked.' : 'Opening automatically.'}</strong>
+          <span>
+            {popupBlocked
+              ? ` Allow pop-ups and redirects for skim.page once, then ${provider.label} will open automatically next time.`
+              : ` If ${provider.label} does not open, allow pop-ups and redirects for skim.page once.`}
+          </span>
+        </div>
         <p className="result-url">{request.articleUrl}</p>
         <div className="prompt-block result-prompt" ref={promptRef}>
           {request.prompt}

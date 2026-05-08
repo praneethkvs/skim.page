@@ -310,7 +310,7 @@ Known browser test caveat:
 
 - Provider handoff URLs are unofficial or best-effort. They can change without notice.
 - Gemini via Google AI Mode depends on Google Search behavior and account/region eligibility.
-- Popup blockers or browser surfaces may block automatic `window.open`.
+- Generated prompt pages attempt automatic `window.open` handoff. The fallback page includes a visible alert telling users to allow pop-ups and redirects for skim.page once if the browser blocks the first attempt.
 - Production hosting must support SPA fallback routing for prepend-style paths. Vercel is covered by `vercel.json`; other hosts need equivalent rewrites.
 - No automated test suite exists yet; verification is currently build plus browser checks.
 

@@ -500,6 +500,26 @@ nav.nav-scrolled {
   line-height: 1.6;
 }
 
+.popup-alert {
+  display: flex;
+  gap: 8px;
+  max-width: 720px;
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--accent);
+  border-left-width: 4px;
+  border-radius: 4px;
+  background: var(--accent-dim);
+  color: var(--black);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.popup-alert strong {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
 .result-prompt {
   margin-top: 18px;
 }
