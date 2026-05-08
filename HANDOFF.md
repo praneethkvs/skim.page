@@ -299,6 +299,7 @@ Known browser test caveat:
 - Default is not shown as a lens shortcut chip; the absence of a lens means Default.
 - Lens prompts were shortened so first outputs stay TL;DR-sized; users can ask the AI for deeper follow-up in chat.
 - Public deploy prep added `vercel.json` for Vercel SPA fallback, favicon, and share metadata in `index.html`.
+- Production Vercel redirects may collapse `https://` inside path-style article URLs to `https:/`; `normalizeArticleUrl` now tolerates single-slash protocols.
 - ChatGPT remains default provider.
 - Gemini web handoff now uses Google AI Mode search via `udm=50`, not `gemini.google.com/app`.
 - Gemini direct prompt injection is future browser extension work.

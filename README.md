@@ -126,6 +126,7 @@ Supported query example:
 Normalization rules:
 
 - Preserve `http://` and `https://`.
+- Tolerate hosted redirects that collapse `https://` in path-style article URLs to `https:/`.
 - Add `https://` to likely domain/path inputs without a protocol.
 - Missing or unsupported lens falls back to Default.
 - Missing or unsupported provider falls back to ChatGPT.

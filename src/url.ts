@@ -56,9 +56,10 @@ export function parseLocation(location: Location): ParsedLocation {
 export function normalizeArticleUrl(rawUrl: string): string | null {
   const decoded = safelyDecode(rawUrl.trim());
   const withoutLeadingSlashes = decoded.replace(/^\/+/, '');
-  const candidate = hasProtocol(withoutLeadingSlashes)
-    ? withoutLeadingSlashes
-    : `https://${withoutLeadingSlashes}`;
+  const protocolNormalized = normalizeProtocolSlashes(withoutLeadingSlashes);
+  const candidate = hasProtocol(protocolNormalized)
+    ? protocolNormalized
+    : `https://${protocolNormalized}`;
 
   try {
     const url = new URL(candidate);
@@ -192,6 +193,10 @@ function splitLensAndUrl(
 
 function hasProtocol(value: string): boolean {
   return /^https?:\/\//i.test(value);
+}
+
+function normalizeProtocolSlashes(value: string): string {
+  return value.replace(/^(https?):\/(?!\/)/i, '$1://');
 }
 
 function safelyDecode(value: string): string {
