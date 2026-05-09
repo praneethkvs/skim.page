@@ -107,9 +107,16 @@ function LandingPage({
   const [isAutoCycling, setIsAutoCycling] = useState(true);
   const [isUsingExampleUrl, setIsUsingExampleUrl] = useState(true);
   const [articleUrl, setArticleUrl] = useState(exampleArticleUrls[activeLensId]);
+  const [copyPromptLabel, setCopyPromptLabel] = useState('Copy prompt instead');
+  const demoSectionRef = useRef<HTMLElement | null>(null);
   const skimPrefix = buildSkimPrefix(activeLensId, activeProviderId);
   const summaryPromptUrl = buildSummaryPromptUrl(articleUrl, activeProviderId, activeLensId);
+  const previewPrompt = buildPreviewPrompt(activeLens);
   const hasArticleUrl = articleUrl.trim().length > 0;
+
+  function stopAutoCycling() {
+    setIsAutoCycling(false);
+  }
 
   useEffect(() => {
     if (!isAutoCycling) {
@@ -129,13 +136,34 @@ function LandingPage({
     }
   }, [activeLensId, isUsingExampleUrl]);
 
+  useEffect(() => {
+    const demoSection = demoSectionRef.current;
+
+    if (!demoSection || !isAutoCycling) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          stopAutoCycling();
+        }
+      },
+      { rootMargin: '160px 0px' },
+    );
+
+    observer.observe(demoSection);
+
+    return () => observer.disconnect();
+  }, [isAutoCycling]);
+
   function chooseLens(lensId: LensId) {
-    setIsAutoCycling(false);
+    stopAutoCycling();
     onLensChange(lensId);
   }
 
   function chooseProvider(providerId: ProviderId) {
-    setIsAutoCycling(false);
+    stopAutoCycling();
     onProviderChange(providerId);
   }
 
@@ -149,6 +177,23 @@ function LandingPage({
     window.location.href = summaryPromptUrl;
   }
 
+  async function copyDemoPrompt() {
+    stopAutoCycling();
+
+    const promptWithUrl = previewPrompt.replace('{ARTICLE_URL}', articleUrl.trim() || '{ARTICLE_URL}');
+
+    try {
+      await navigator.clipboard.writeText(promptWithUrl);
+      setCopyPromptLabel('Copied');
+      window.setTimeout(() => setCopyPromptLabel('Copy prompt instead'), 1600);
+    } catch {
+      if (fallbackCopyText(promptWithUrl)) {
+        setCopyPromptLabel('Copied');
+        window.setTimeout(() => setCopyPromptLabel('Copy prompt instead'), 1600);
+      }
+    }
+  }
+
   return (
     <>
       <div className="landing-grid">
@@ -157,22 +202,23 @@ function LandingPage({
             {activeLens.eyebrow}
           </div>
           <h1 className="hero-headline">
-            Get the <em id="hero-em">TL;DR.</em>
-            <br />
-            ASAP.
+            Get the <em id="hero-em">TL;DR.</em> ASAP.
           </h1>
           <p className="hero-sub">
             Just add <code>skim.page/</code> before any article URL and summarize it instantly.
           </p>
           <p className="hero-built-for">
-            Use with your preferred AI Assistant
+            Works with ChatGPT, Claude, Gemini, Perplexity, and Grok.
           </p>
         </section>
 
         <section
           className="demo-section"
           id="lenses"
-          onMouseEnter={() => setIsAutoCycling(false)}
+          onFocusCapture={stopAutoCycling}
+          onMouseEnter={stopAutoCycling}
+          onPointerDown={stopAutoCycling}
+          ref={demoSectionRef}
         >
           <form className="summary-demo" onSubmit={openSummaryPrompt}>
             <label className="url-field">
@@ -195,6 +241,14 @@ function LandingPage({
                   Try it
                 </button>
               </div>
+              <button
+                className={copyPromptLabel === 'Copied' ? 'copy-prompt-inline copy-success' : 'copy-prompt-inline'}
+                disabled={!hasArticleUrl}
+                onClick={copyDemoPrompt}
+                type="button"
+              >
+                {copyPromptLabel}
+              </button>
             </label>
             <div className="demo-controls">
               <div className="style-control">
@@ -235,13 +289,13 @@ function LandingPage({
                 <span>{summaryStyleDescriptions[activeLensId]}</span>
               </p>
             </div>
-            <details className="preview-shell">
+            <details className="preview-shell" open>
               <summary className="preview-header">
                 <span>Generated prompt preview</span>
                 <strong>{activeProvider.label}</strong>
               </summary>
               <div className="prompt-block prompt-preview" id="prompt-block">
-                {buildPreviewPrompt(activeLens)}
+                {previewPrompt}
               </div>
             </details>
           </form>
@@ -272,7 +326,7 @@ function LandingPage({
               <div className="step-num accent-color">3</div>
               <div className="step-title">Open your AI assistant</div>
               <div className="step-body">
-                Your current tab redirects with a ready prompt. If the AI assistant does not pick it up,
+                Your current tab redirects with a ready prompt. If the redirect does not work,
                 copy the prompt from skim.page.
               </div>
             </div>
@@ -281,14 +335,14 @@ function LandingPage({
             <div className="shortcut-heading">
               <h3>Usage notes</h3>
             </div>
-            <div className="shortcut-example">
-              <code>skim.page/i/cl/https://example.com/article</code>
-              <span>uses the Investor summary style in Claude.</span>
-            </div>
             <p className="shortcut-note">
               Add a summary style shortcut, an AI assistant shortcut, or both before the article URL.
               Full names work too, like <code>skim.page/investor/claude/...</code>.
             </p>
+            <div className="shortcut-example">
+              <code>skim.page/i/cl/https://example.com/article</code>
+              <span>uses the Investor summary style in Claude.</span>
+            </div>
             <div className="shortcut-group">
               <div className="shortcut-title">Summary styles</div>
               <div className="shortcut-badges">
@@ -606,7 +660,12 @@ function MalformedState({ parsed }: MalformedStateProps) {
           <em>one more time.</em>
         </h1>
         <p className="hero-sub malformed-copy">{parsed.message}</p>
+        <p className="section-label malformed-example-label">Simple version</p>
         <div className="prompt-block">{parsed.example}</div>
+        <p className="malformed-advanced-example">
+          Advanced shortcuts still work, like{' '}
+          <code>skim.page/i/cl/https://example.com/article</code>.
+        </p>
         <div className="result-actions">
           <a className="action-button action-primary" href="/">
             Back home
