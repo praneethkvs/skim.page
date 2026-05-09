@@ -6,5 +6,5 @@ dist/
 .vercel
 
 # Internal working docs
-README.md
+INTERNAL_README.md
 HANDOFF.md
