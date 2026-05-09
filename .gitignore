@@ -4,3 +4,7 @@ dist/
 *.local
 
 .vercel
+
+# Internal working docs
+README.md
+HANDOFF.md

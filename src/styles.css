@@ -113,6 +113,7 @@ nav.nav-scrolled {
 
 .hero-headline em {
   font-style: italic;
+  font-size: clamp(54px, 7vw, 90px);
   color: var(--accent);
   transition: color var(--transition);
 }
@@ -129,11 +130,11 @@ nav.nav-scrolled {
   display: inline-block;
   font-family: 'DM Mono', monospace;
   font-size: 0.86em;
-  background: var(--accent-dim);
+  background: var(--accent);
   border: 1px solid var(--accent);
   padding: 1px 7px;
   border-radius: 3px;
-  color: var(--black);
+  color: #fff;
   transition: background var(--transition), border-color var(--transition);
 }
 
@@ -149,16 +150,6 @@ nav.nav-scrolled {
   color: var(--black);
   font-size: 14px;
   line-height: 1.35;
-}
-
-.hero-sub code {
-  font-family: 'DM Mono', monospace;
-  font-size: 16px;
-  background: #F2F2F0;
-  border: 1px solid var(--light);
-  padding: 2px 7px;
-  border-radius: 3px;
-  color: var(--black);
 }
 
 .hero-demo {
@@ -266,7 +257,7 @@ nav.nav-scrolled {
 
 .summary-demo {
   display: grid;
-  gap: 22px;
+  gap: 18px;
   padding: 26px;
   border: 1px solid #E4E4E1;
   border-radius: 6px;
@@ -487,7 +478,7 @@ nav.nav-scrolled {
   letter-spacing: 0.12em;
   color: var(--mid);
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 .lens-label {
@@ -525,11 +516,8 @@ nav.nav-scrolled {
 }
 
 .lens-meta {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-bottom: 14px;
+  display: block;
+  margin-bottom: -8px;
 }
 
 .lens-title {
@@ -544,7 +532,7 @@ nav.nav-scrolled {
   font-size: 16px;
   color: var(--mid);
   line-height: 1.5;
-  margin: 0;
+  margin: 4px 0 0;
 }
 
 .preview-shell {

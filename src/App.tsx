@@ -263,7 +263,7 @@ function LandingPage({
               <div className="step-num accent-color">2</div>
               <div className="step-title">Prepend the URL</div>
               <div className="step-body">
-                Add <code>skim.page/</code> before the article URL. For example,
+                Just add <code>skim.page/</code> before the URL.
                 <br />
                 <code>skim.page/https://example.com/article</code>.
               </div>
@@ -279,8 +279,7 @@ function LandingPage({
           </div>
           <div className="shortcut-reference" aria-label="URL shortcuts">
             <div className="shortcut-heading">
-              <p className="section-label">URL shortcuts</p>
-              <h3>Power-user paths</h3>
+              <h3>Usage notes</h3>
             </div>
             <div className="shortcut-example">
               <code>skim.page/i/cl/https://example.com/article</code>
