@@ -1150,10 +1150,40 @@ footer {
   .provider-tab { flex: 1 1 calc(50% - 8px); justify-content: center; }
   .lens-label { margin-bottom: 14px; }
   .summary-demo { padding: 18px; }
-  .url-input-row { grid-template-columns: minmax(104px, max-content) minmax(0, 1fr) minmax(72px, max-content); }
-  .url-prefix { max-width: 128px; min-height: 44px; justify-content: flex-start; }
-  .url-input-row input { border-left: 1.5px solid var(--black); border-top: 0; padding-left: 12px; padding-right: 12px; }
-  .summary-submit { border-left: 1.5px solid var(--black); border-top: 0; padding-left: 14px; padding-right: 14px; }
+  .url-input-row {
+    grid-template-columns: minmax(142px, max-content) minmax(0, 1fr);
+    row-gap: 6px;
+    border: 0;
+    overflow: visible;
+  }
+  .url-prefix {
+    max-width: none;
+    min-height: 44px;
+    justify-content: flex-start;
+    border: 1.5px solid var(--black);
+    border-right: 0;
+    border-radius: 3px 0 0 3px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+  .url-input-row input {
+    min-height: 44px;
+    border: 1.5px solid var(--black);
+    border-radius: 0 3px 3px 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+  }
+  .summary-submit {
+    grid-column: 1 / -1;
+    justify-self: start;
+    min-height: 34px;
+    margin-top: 4px;
+    border: 1.5px solid var(--accent);
+    border-radius: 3px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
   .shortcut-example { display: grid; grid-template-columns: minmax(0, 1fr); }
   .demo-section .prompt-block { height: 340px; }
   .result-page { padding: 120px 24px 48px; }
