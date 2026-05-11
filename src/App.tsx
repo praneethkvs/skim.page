@@ -661,7 +661,7 @@ function MalformedState({ parsed }: MalformedStateProps) {
         </h1>
         <p className="hero-sub malformed-copy">{parsed.message}</p>
         <p className="section-label malformed-example-label">Simple version</p>
-        <div className="prompt-block">{parsed.example}</div>
+        <div className="prompt-block malformed-example">{parsed.example}</div>
         <p className="malformed-advanced-example">
           Advanced shortcuts still work, like{' '}
           <code>skim.page/i/cl/https://example.com/article</code>.

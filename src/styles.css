@@ -1018,15 +1018,22 @@ nav.nav-scrolled {
   margin-bottom: 8px;
 }
 
+.malformed-example {
+  margin-bottom: 18px;
+  overflow-x: auto;
+  white-space: nowrap;
+  word-break: normal;
+}
+
 .malformed-advanced-example {
-  margin: -12px 0 26px;
+  margin: 0 0 26px;
   color: var(--mid);
   font-size: 15px;
   line-height: 1.5;
 }
 
 .malformed-advanced-example code {
-  display: inline-block;
+  display: inline;
   background: #F2F2F0;
   border: 1px solid var(--light);
   border-radius: 3px;
